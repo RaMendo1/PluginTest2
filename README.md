@@ -11,3 +11,4 @@ Rigs any 3 jointed limb
 * Control the controller size
 * Control the controller color
 * Modular approach
+* Can recolor already created controllers
