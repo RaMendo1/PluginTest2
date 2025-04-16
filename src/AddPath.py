@@ -1,2 +1,2 @@
 import sys
-sys.path.append("C:\Users\Benja\Documents\MayaTools\src")
+sys.path.append("C:/Users/Benja/Documents/MayaTools/src")

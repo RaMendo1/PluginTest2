@@ -137,7 +137,7 @@ class LimbRigger:
         topGrpName = self.root + "_rig_grp"
         mc.group([rootFKCtrlGrp, ikEndCtrlGrp, ikPoleVectorCtrlGrp, ikfkBlendCtrlGrp], n= topGrpName)
 
-# Homework: Connect and actually change controls color
+
 class ColorPicker(QWidget):
     def __init__(self):
         super().__init__()
@@ -192,6 +192,10 @@ class LimbRigToolWidget(QMayaWindow):
         self.masterLayout.addWidget(self.rigLimbBtn)
         self.rigLimbBtn.clicked.connect(self.RigLimbBtnClicked)
 
+        self.recolorBtn = QPushButton("Recolor Selected Controllers")
+        self.masterLayout.addWidget(self.recolorBtn)
+        self.recolorBtn.clicked.connect(self.RecolorSelectedControllers)
+
         self.setWindowTitle("Limb Rigging Tool")
 
     def CtrlSizeValueChanged(self, newValue): 
@@ -210,6 +214,22 @@ class LimbRigToolWidget(QMayaWindow):
             self.jointSelectionText.setText(f"{self.rigger.root}, {self.rigger.mid}, {self.rigger.end}")
         except Exception as e: 
             QMessageBox.critical(self, "Error", "Wrong Selection! Please select the first joint of the limb")
+
+    def RecolorSelectedControllers(self):
+        qcolor = self.colorPicker.color
+        r, g, b, _ = qcolor.getRgbF()
+        
+        selected = mc.ls(sl=True, type="transform")
+        if not selected:
+            QMessageBox.warning(self, "Warning", "Please select one or more controllers to recolor.")
+            return
+        
+        for obj in selected:
+            try:
+                self.rigger.controllerColorRGB = (r, g, b)
+                self.rigger.ApplyColorToCurve(obj)
+            except Exception as e:
+                print(f"Failed to apply color to {obj}: {e}")
 
 
 LimbRigToolWidget = LimbRigToolWidget() 
