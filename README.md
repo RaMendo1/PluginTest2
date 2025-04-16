@@ -4,7 +4,7 @@ This is a collection of maya plugins to help with rigging and other stuff
 
 ## Limb Rigger
 
--Image PlaceHolder-
+<img src="assets/LimbRiggingTool.PNG">
 
 Rigs any 3 jointed limb
 * Auto find the joints
