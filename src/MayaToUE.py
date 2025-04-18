@@ -173,7 +173,7 @@ class MayaToEUWidget(QMayaWindow):
 
     def AddNewAnimClipEntryBtnClicked(self):
         newEntry = self.mayaToUE.AddNewAnimClipEntry()
-        self.animEntryLayout.addWidget(newEntry)
+        self.animEntryLayout.addWidget(AnimClipEntryWidget(newEntry))
 
     @TryAction
     def AddMeshBtnClicked(self):
