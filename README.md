@@ -12,3 +12,13 @@ Rigs any 3 jointed limb
 * Control the controller color
 * Modular approach
 * Can recolor already created controllers
+
+## Maya to Unreal
+
+<img src="assets/MayaToUETool.PNG">
+
+Meant to prep rig for Unreal Engine
+* Sets a root joint
+* Add in a root joint if one doesn't exist
+* Selecting meshses to export
+* Add in multiple animation clips
