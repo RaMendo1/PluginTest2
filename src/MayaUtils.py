@@ -28,11 +28,11 @@ def IsMesh(obj):
     shapes = mc.listRelatives(obj, s=True)
     if not shapes:
         return False
-    
+
     for s in shapes:
-        if mc.objectTypes(s) == "mesh":
+        if mc.objectType(s) == "mesh":
             return True
-        
+
     return False
 
 def IsSkin(obj):
