@@ -231,7 +231,7 @@ class LimbRigToolWidget(QMayaWindow):
             except Exception as e:
                 print(f"Failed to apply color to {obj}: {e}")
 
-
-LimbRigToolWidget = LimbRigToolWidget() 
-LimbRigToolWidget.show() 
+def Run():
+    LimbRigToolWidget = LimbRigToolWidget() 
+    LimbRigToolWidget.show() 
 

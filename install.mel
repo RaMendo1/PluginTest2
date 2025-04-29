@@ -1,0 +1,14 @@
+global proc FilePathLocator() {};
+
+string $locatorInfo = `whatIs FilePathLocator`;
+string $filePath = `substring $locatorInfo 25 999`;
+string $pluginDir = `dirname $filePath`;
+
+string $pythonCmd = "import sys;";
+$pythonCmd += "sys.path.append('" + $pluginDir + "');";
+$pythonCmd += "import install;";
+$pythonCmd += "import importlib;";
+$pythonCmd += "importlib.reload(install);";
+$pythonCmd += "install.Install()";
+
+python($pythonCmd);
