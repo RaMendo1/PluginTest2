@@ -7,6 +7,7 @@ from PySide2.QtCore import Signal
 from PySide2.QtGui import QIntValidator, QRegExpValidator
 from PySide2.QtWidgets import QCheckBox, QFileDialog, QHBoxLayout, QLabel, QLineEdit, QListWidget, QMessageBox, QPushButton, QVBoxLayout, QWidget
 import maya.cmds as mc
+import MayaTools
 
 
 def TryAction(action):
@@ -56,26 +57,23 @@ class MayaToUE:
         mc.FBXExportSmoothingGroups('-v', True)
         mc.FBXExportInputConnections('-v', False)
 
-        # -f means file name, -s is selected, and -ea is export animation
-        mc.FBXExport('-f', skeletalMeshExportPath, '-s', True, '-ea', False)
+        self.SendToUnreal()
 
-        os.makedirs(self.GetAnimDirPath(), exist_ok=True)
-        mc.FBXExportBakeComplexAnimation('-v', True)
-        for animClip in self.animationClips:
-            if not animClip.shouldExport:
-                continue
+    def SendToUnreal(self):
+        ueUtilPath = os.path.join(MayaTools.srcDir, "UnrealUtils.py")
+        ueUtilPath = os.path.normpath(ueUtilPath)
 
-            animExportPath = self.GetSavePathForAnimClip(animClip)
+        meshPath = self.GetSkeletalMeshSavePath().replace("\\", "/")
+        aimDir = self.GetAnimDirPath().replace("\\", "/")
 
-            startFrame = animClip.frameMin
-            endFrame = animClip.frameMax
+        commands = []
+        with open(ueUtilPath, 'r') as ueUitlityFile:
+            commands = ueUitlityFile.readlines()
 
-            mc.FBXExportBakeComplexStart('-v', startFrame)
-            mc.FBXExportBakeComplexEnd('-v', endFrame)
-            mc.FBXExportBakeComplexStep('-v', 1)
+        commands.append(f"\nImportMeshAndAnimation(\'{meshPath}\', \'{aimDir}\')")
 
-            mc.playbackOptions(e=True, min = startFrame, max = endFrame)
-            mc.FBXExport('-f', animExportPath, '-s', True, '-ea', True)
+        command = "".join(commands)
+        print(command)
 
     def GetAnimDirPath(self):
         path = os.path.join(self.saveDir, "animations")
